@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+  <link rel="stylesheet" href="/static/main.css">
+
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+  <!-- Navbar content -->
+ 	<a class="navbar-brand" href="#">Kandhan's NLP Services </a>
+</nav>	
+
+
+<div class="form-style-5 container back1">	
+<form method="post" action="{{ url_for('submitted_parse') }}">
+<fieldset>
+<legend><span class="number">1</span> Enter the input text</legend>
+
+<textarea name="field3" placeholder="Input unstructured text goes here"></textarea>
+<legend><span class="number">2</span> Choose your desired Span</legend>
+<label for="job">Span Types:</label>
+<select id="job" name="field4">
+<optgroup label="Developed">
+  <option value="negation">Negation</option>
+  <option value="hypothetical">Hypothetical</option>
+  <option value="family history">Boxing</option>
+
+</optgroup>
+<optgroup label="In Development">
+  <option value="nothing">Similarity</option>
+  <option value="nothing">Disambiguation</option>
+</optgroup>
+</select>      
+</fieldset>
+
+<input type="submit" value="Apply" />
+</form>
+</div>
+
+
+</body>
+</html>

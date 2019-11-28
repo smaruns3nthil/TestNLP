@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+  <link rel="stylesheet" href="/static/main.css">
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+  <!-- Navbar content -->
+ 	<a class="navbar-brand" href="#">Kandhan's NLP Services</a>
+</nav>	
+
+<!-- <div class="jumbotron"> -->
+<div class="container">	
+<div class="form-style-5">
+<form method="post" action="{{ url_for('submitted_parse') }}">
+<fieldset>
+<legend><span class="number">1</span> Enter the input text</legend>
+
+<textarea name="field3" id="field3" value="Input unstructured text goes here"></textarea>
+<legend><span class="number">2</span> Choose your desired Span</legend>
+<label for="job">Span Types:</label>
+<select id="job" name="field4">
+<optgroup label="In development">
+  <option value="negation">Negation</option>
+  <option value="hypothetical">Hypothetical</option>
+  <option value="family history">FamilyHistory</option>
+
+</optgroup>
+<optgroup label="Developed">
+  <option value="nothing">Nothing</option>
+</optgroup>
+</select>
+</fieldset>
+
+<input type="submit" value="Apply" />
+
+</form>
+
+
+<!-- <div class="container"> -->
+	<div class="row">
+		<div class="col-lg-3 col-sm-6">
+				<div>
+					<input type="checkbox" id="checkbox" name="negation" value="negation" onchange="negation_changed('{{span}}','{{sentence}}')"> <span class="c1">Negation Span</span><br>
+					<input type="checkbox" id="checkbox1" name="hypothetical" value="hypothetical" onchange="hypothetical_span('{{span}}','{{sentence}}')"> <span class="c2">Hypothetical Span</span><br>
+					<input type="checkbox" id="checkbox2" name="family" value="family" onchange="family('{{span}}','{{sentence}}')"> <span class="c3">family history Span</span><br>
+				</div>
+		</div>
+		<div class="col-lg-9 col-sm-6">
+			<legend id="inputText" align="left" ><font size="15">{{sentence}}</font></legend>
+		</div>
+	</div>
+</div>
+
+
+
+</div>
+<!-- </div> -->
+
+
+
+		<script >
+
+			var text,textwithspan,hypospan;
+			function show_graph(){
+				choice="{{choice}}"
+				if(choice=="negation"){
+				document.getElementById("checkbox").checked = true;
+				negation_changed('{{span}}','{{sentence}}')
+			}
+			else if(choice=="hypothetical")
+			{
+	document.getElementById("checkbox1").checked = true;
+				hypothetical_span('{{span}}','{{sentence}}')
+			}
+				else if(choice=="family")
+			{
+	document.getElementById("checkbox2").checked = true;
+				family('{{span}}','{{sentence}}')
+			}
+      document.getElementById("field3").value='{{sentence}}';
+			}
+
+		function highlight(text) {
+  var inputText = document.getElementById("inputText");
+  var innerHTML = inputText.innerHTML;
+  var index = innerHTML.indexOf(text);
+  if (index >= 0) {
+   innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
+   inputText.innerHTML = innerHTML;
+  }
+}
+
+function negation_changed(b,sentence){
+var checkbox = document.getElementById("checkbox");
+
+if(checkbox.checked==true)
+{
+	b=JSON.parse(b)
+currenttext=document.getElementById("inputText").innerHTML;
+var i;
+console.log(b.length)
+
+for(i=0;i<b.length;i++)
+{
+	if(b[i][2]==1){
+
+	var text;
+
+	text=sentence.substring(b[i][0],b[i][1]);
+	console.log(b[i][0])
+	console.log(b[i][1])
+
+	console.log(text)
+	textwithspan="<span class='highlight'>"+text+"</span>";
+
+
+	currenttext=currenttext.replace(text,textwithspan);
+
+
+	console.log(currenttext)
+	document.getElementById("inputText").innerHTML=currenttext;
+	console.log(document.getElementById("inputText").innerHTML);
+	document.getElementById("inputText").style.fontSize="15";
+}
+
+}
+}
+if(checkbox.checked==false){
+		console.log(currenttext)
+		currenttext=sentence
+		document.getElementById("inputText").innerHTML=currenttext;
+		document.getElementById("inputText").style.fontSize="15";
+
+	}
+
+
+}
+function hypothetical_span(b,sentence){
+var checkbox = document.getElementById("checkbox1");
+
+if(checkbox.checked==true)
+{
+	b=JSON.parse(b)
+currenttext=document.getElementById("inputText").innerHTML;
+var i;
+console.log(b.length)
+
+for(i=0;i<b.length;i++)
+{
+	if(b[i][2]==2){
+
+	var text;
+
+	text=sentence.substring(b[i][0],b[i][1]);
+	console.log(b[i][0])
+	console.log(b[i][1])
+
+	console.log(text)
+	textwithspan="<span style='background-color: #008000'>"+text+"</span>";
+
+
+	currenttext=currenttext.replace(text,textwithspan);
+
+
+	console.log(currenttext)
+	document.getElementById("inputText").innerHTML=currenttext;
+	console.log(document.getElementById("inputText").innerHTML);
+}
+
+}
+}
+if(checkbox.checked==false){
+		console.log(currenttext)
+		currenttext=sentence
+		document.getElementById("inputText").innerHTML=currenttext;
+
+	}
+
+
+}
+
+function family(b,sentence){
+var checkbox = document.getElementById("checkbox2");
+
+if(checkbox.checked==true)
+{
+	b=JSON.parse(b)
+currenttext=document.getElementById("inputText").innerHTML;
+var i;
+console.log(b.length)
+
+for(i=0;i<b.length;i++)
+{
+	if(b[i][2]==3){
+
+	var text;
+
+	text=sentence.substring(b[i][0],b[i][1]);
+	console.log(b[i][0])
+	console.log(b[i][1])
+
+	console.log(text)
+	textwithspan="<span style='background-color: #0000FF'>"+text+"</span>";
+
+
+	currenttext=currenttext.replace(text,textwithspan);
+
+
+	console.log(currenttext)
+	document.getElementById("inputText").innerHTML=currenttext;
+	console.log(document.getElementById("inputText").innerHTML);
+}
+
+}
+}
+if(checkbox.checked==false){
+		console.log(currenttext)
+		currenttext=sentence
+		document.getElementById("inputText").innerHTML=currenttext;
+
+	}
+
+
+}
+show_graph()
+</script>
+
+
+
+
+</body>
+</html>
